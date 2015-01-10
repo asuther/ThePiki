@@ -1,0 +1,34 @@
+<!-- Tabs -->
+<nav id="tabs">
+	<a href="#/view/{{$index}}" ng-repeat="tab_item in piki_data.tabs" data-tab-id="$index" tab>{{tab_item.name}}</a>
+</nav>
+<!-- Main Piki Table -->
+<table class="piki">
+	<tr>
+		<!-- Piki Image -->
+		<td id="piki_td" >
+			<div class="loading">
+				<img src="images/beer.jpg" id="visible_image" class="loadingImage" >
+				<map name='Map' id='Map' >
+					 <div ng-repeat="child in piki_data.tabs[model.tab_id].children">
+						<area shape="rect" coords="{{shape.toString()}}" href="#" ng-repeat="shape in child.coordinates" piki-shape="" data-piki-id="{{child.id}}">
+					</div>
+				</map>
+				<img id="mouseover_image" class="overlay" width="300" height="300" usemap="#Map" piki-image>
+			</div>
+		</td>
+		<!-- Sidebar Controls -->
+		<td id="sidebar">
+			<menu id="controls">
+				<ul>
+				</ul>
+			</menu>
+
+			<ul>
+				<h2>{{piki_data.tabs[model.tab_id].name}}</h2>
+			</ul>
+			<div ng-include="menu_item.link">
+			</div>
+		</td>
+	</tr><!-- controls -->
+</table><!-- piki container without tabs-->

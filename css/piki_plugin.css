@@ -1,0 +1,22 @@
+.image_div {
+	margin-left: 300px;
+}
+canvas {
+	border: 1px solid blue;
+	z-index: 1;
+}
+.overlay {
+	position: absolute;
+	top:0;
+	left:0;
+}
+#mouseover_image {
+	z-index: 50;
+}
+.tooltip {
+	position: absolute;
+	background-color: #fff;
+	padding: 5px 10px;
+	border-radius: 5px;
+	z-index: 100;
+}

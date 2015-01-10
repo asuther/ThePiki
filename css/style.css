@@ -1,0 +1,83 @@
+/*Header*/
+* {
+	padding: 0;
+	margin: 0;
+}
+a {
+	text-decoration: none;
+}
+.loading {
+    background-image: url('../images/ajaxLoader.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+    height: 300px;
+    width: 300px;
+}
+.loadingImage {
+	visibility: collapse;
+}
+header {
+	width: 100%;
+	text-align: center;
+	margin-bottom: 20px;
+	padding: 10px;
+	border-bottom: 1px solid black;
+}
+
+header input[type=search] {
+	width: 300px;
+}
+
+main > div {
+	display: table;
+	margin: 0 auto;
+	border: 1px solid black;
+}
+
+/*Breadcrumbs*/
+nav#breadcrumbs {
+	margin-bottom: 20px;
+}
+nav#breadcrumbs a {
+	margin-left: 5px;
+	border: 1px solid red;
+}
+nav#tabs a {
+	border-radius: 5px 5px 0 0;
+	background-color: #444;
+	color: white;
+	padding: 5px 10px;
+}
+nav#tabs a:hover {
+	border-radius: 5px 5px 0 0;
+	background-color: red;
+	color: white;
+	padding: 5px 10px;
+}
+
+table.piki {
+	border: 1px solid red;
+}
+table.piki tr td {
+	position: relative;
+	vertical-align: top;
+}
+td#sidebar {
+	padding:0 20px;
+	min-width: 400px;
+}
+main {
+	margin: 0 auto;
+	width:800px;
+}
+menu#controls  {
+	border: 1px solid blue;
+}
+menu#controls ul {
+	list-style: none;
+}
+menu#controls  ul li {
+	display: inline;
+	margin-left: 10px;
+}

@@ -1,0 +1,27 @@
+<html ng-app="myApp">
+<head>
+    <title>The Piki</title>
+    <script src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/Classes/Piki.Class.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/piki_plugin.css">
+
+    <script type="text/ng-template" id="partials/catalogue.html">
+      <h2>Catalogue</h2>
+    </script>
+</head>
+<body>
+
+	<!-- Header -->
+	<header>
+		<h1>The Piki</h1>
+	</header>
+
+	<main role="main" ng-view></main>
+
+	<script src="js/angular.min.js"></script>
+	<script src="js/controllers/view.js"></script>
+	<script src="js/directives/view.js"></script>
+</body>
+</html
