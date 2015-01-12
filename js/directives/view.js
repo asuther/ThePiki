@@ -6,9 +6,8 @@ myApp.directive('pikiShape', function($parse) {
 			element.bind('mouseenter', function() {
 				// console.log($(element).offset());
 				var piki_id = $parse(attributes.pikiId)(scope);
-				console.log(element[0].offsetTop);
 				scope.pikiChildren[piki_id].show(element[0].offsetLeft,element[0].offsetTop);
-				console.log("Mouse Entered to PikiID area: "+piki_id);
+				console.log("Mouse Entered to Piki ID="+piki_id+ "  Region name: "+scope.pikiChildren[piki_id].name);
 			})
 			.bind('mouseleave', function() {
 				var piki_id = $parse(attributes.pikiId)(scope);
@@ -16,7 +15,7 @@ myApp.directive('pikiShape', function($parse) {
 				// console.log("Mouse Exited PikiID area: "+piki_id);
 			})
 			.bind('mousemove', function(e) {
-				 console.log($(element).parents('table.piki').offset());
+				// console.log($(element).parents('table.piki').offset());
 				// console.log('E.PageX: ' + e.pageX)
 				var parent_offset = $(element).parents('table.piki').offset();
 				var piki_id = $parse(attributes.pikiId)(scope);
