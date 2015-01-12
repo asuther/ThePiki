@@ -41,7 +41,7 @@ function Piki(data,$compile,$scope) {
 	};
 	this.update = function(x,y) {
 		 console.log("Moving the '"+this.name+"' Tooltip. ("+x+","+y+")");
-		$tooltip.css("left",x).css("top",y);
+		$tooltip.css({'top':y+tooltip_offset.y, 'left':x+tooltip_offset.x});
 	}
 	this.hide = function() {
 		// console.log("Hiding the '"+this.name+"' Tooltip");
