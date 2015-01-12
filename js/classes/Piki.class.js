@@ -36,11 +36,11 @@ function Piki(data,$compile,$scope) {
 		});
 	};
 	this.show = function(x, y) {
-		// console.log("Showing the '"+this.name+"' Tooltip. ("+x+","+y+")");
+		 console.log("Showing the '"+this.name+"' Tooltip. ("+x+","+y+")");
 		$('#visible_image').after($tooltip.css("left",x+tooltip_offset.x).css("top",y+tooltip_offset.y));
 	};
 	this.update = function(x,y) {
-		// console.log("Moving the '"+this.name+"' Tooltip. ("+x+","+y+")");
+		 console.log("Moving the '"+this.name+"' Tooltip. ("+x+","+y+")");
 		$tooltip.css({'top':y+tooltip_offset.y, 'left':x+tooltip_offset.x});
 	}
 	this.hide = function() {
