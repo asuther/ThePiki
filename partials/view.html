@@ -1,6 +1,7 @@
+
 <!-- Tabs -->
 <nav id="tabs">
-	<a href="#/view/{{$index}}" ng-repeat="tab_item in piki_data.tabs" data-tab-id="$index" tab>{{tab_item.name}}</a>
+	<a href="#/view/{{model.pikiId}}/{{$index}}" ng-class='{selected: $index == model.tabId}' ng-repeat="tab_item in piki_data.tabs" data-tab-id="$index" tab>{{tab_item.name}}</a>
 </nav>
 <!-- Main Piki Table -->
 <table class="piki">
@@ -8,9 +9,9 @@
 		<!-- Piki Image -->
 		<td id="piki_td" >
 			<div class="loading">
-				<img src="images/beer.jpg" id="visible_image" class="loadingImage" >
+				<img src="{{ piki_data.imagePath + piki_data.imagePath + piki_data.imageType}} " id="visible_image" class="loadingImage" >
 				<map name='Map' id='Map' >
-					 <div ng-repeat="child in piki_data.tabs[model.tab_id].children">
+					 <div ng-repeat="child in piki_data.tabs[model.tabId].children">
 						<area shape="rect" coords="{{shape.toString()}}" href="#" ng-repeat="shape in child.coordinates" piki-shape="" data-piki-id="{{child.id}}">
 					</div>
 				</map>
@@ -25,7 +26,7 @@
 			</menu>
 
 			<ul>
-				<h2>{{piki_data.tabs[model.tab_id].name}}</h2>
+				<h2>{{piki_data.tabs[model.tabId].name}}</h2>
 			</ul>
 			<div ng-include="menu_item.link">
 			</div>

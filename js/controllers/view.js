@@ -3,7 +3,7 @@
 var myApp = angular.module('myApp', []).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
-        when('/view/:tab_id', {
+        when('/view/:pikiId/:tabId', {
             templateUrl: 'partials/view.html',
             controller: 'ViewCtrl'
         }).
@@ -11,15 +11,21 @@ var myApp = angular.module('myApp', []).
             templateUrl: 'partials/catalogue.html',
             controller: 'CatalogueCtrl'
         }).
-        otherwise({redirectTo: '/view/0'});
+        otherwise({redirectTo: '/view/1/0'});
 }]);
 
 myApp.controller('ViewCtrl', function($scope, $routeParams, $compile) {
     console.log('ViewCtrl');
-    $scope.model = {tab_id: $routeParams.tab_id};
+    console.log($routeParams);
+    $scope.model = {
+                        pikiId: $routeParams.pikiId,
+                        tabId: $routeParams.tabId
+                    };
     $scope.pikiChildren = [];
 	$scope.piki_data = {
-		name: "Beer",
+		name: "beer",
+        imageType: "jpg",
+        imagePath: "images/",
 		tabs: [
 			{
 				name: "Default",
@@ -66,7 +72,7 @@ myApp.controller('ViewCtrl', function($scope, $routeParams, $compile) {
 	$('#mouseover_image').after($scope.canvas);
 
 	//Generate Piki Objects
-	var currentTabData = $scope.piki_data.tabs[$scope.model.tab_id];
+	var currentTabData = $scope.piki_data.tabs[$scope.model.tabId];
 	for(var child_index=0;child_index<currentTabData.children.length;child_index++) {
 		var child = currentTabData.children[child_index];
 		$scope.pikiChildren.push(new Piki(child,$compile, $scope));

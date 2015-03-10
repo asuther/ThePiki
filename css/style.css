@@ -43,18 +43,25 @@ nav#breadcrumbs a {
 	margin-left: 5px;
 	border: 1px solid red;
 }
+/*Tabs*/
 nav#tabs a {
 	border-radius: 5px 5px 0 0;
-	background-color: #444;
+	background-color: #999;
 	color: white;
 	padding: 5px 10px;
 }
 nav#tabs a:hover {
 	border-radius: 5px 5px 0 0;
-	background-color: red;
+	background-color: #555;
 	color: white;
 	padding: 5px 10px;
 }
+#tabs a.selected {
+	background-color: white;
+	color: gray;
+	border: 1px solid black;
+}
+
 
 table.piki {
 	border: 1px solid red;
