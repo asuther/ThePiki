@@ -121,12 +121,12 @@ myApp.controller('ViewCtrl', function($scope, $routeParams, $compile, $q, loadPi
 	// };
 
 
+
 	//Create Canvas
 	$scope.canvas = $('<canvas class="overlay" width="300" height="300"></canvas>');
 	$scope.context = $scope.canvas[0].getContext("2d");
 
 	$('#mouseover_image').after($scope.canvas);
-
 
 
 });

@@ -12,6 +12,10 @@
 				<img src="{{  piki_data.imagePath + piki_data.name + '.' + piki_data.imageType}} " id="visible_image" class="loadingImage" >
 				<map name='Map' id='Map' >
 					 <div ng-repeat="child in piki_data.childrenData">
+<!-- =======
+				<img src="{{ piki_data.imagePath + piki_data.imagePath + piki_data.imageType}} " id="visible_image" class="loadingImage" >
+				<map name='Map' id='Map' >
+					 <div ng-repeat="child in piki_data.tabs[model.tabId].children"> -->
 						<area shape="rect" coords="{{shape.toString()}}" href="#" ng-repeat="shape in child.coordinates" piki-shape="" data-piki-id="{{child.id}}">
 					</div>
 				</map>
