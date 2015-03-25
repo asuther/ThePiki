@@ -6,6 +6,7 @@ myApp.directive('pikiShape', function($parse) {
 			element.bind('mouseenter', function() {
 				// console.log($(element).offset());
 				var piki_id = $parse(attributes.pikiId)(scope);
+				console.log(scope.pikiChildren);
 				scope.pikiChildren[piki_id].show(element[0].offsetLeft,element[0].offsetTop);
 				console.log("Mouse Entered to Piki ID="+piki_id+ "  Region name: "+scope.pikiChildren[piki_id].name);
 			})

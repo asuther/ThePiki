@@ -14,13 +14,13 @@ function Piki(data,$compile,$scope) {
 //*******************************************
 //	Init
 //*******************************************
-	this.id = data.id;
-	this.name = data.name;
-	console.log(data);
-	this.coordinates = data.coordinates;
+	this.id = data.id || -1;
+	this.name = data.name || "Unknown";
+	this.coordinates =  data.coordinates ; // Added brackets to make it an array of arrays
+
 	//Convert the coordinates into coordinates readable by the area
 	// console.log("New Piki created. \n {\n\tName: "+this.name+ " \n\tRectangle: "+this.coordinates+"\n}");
-	// this.coordinates = generateMapAreaCoordinates(this.coordinates);
+	//this.coordinates = generateMapAreaCoordinates(this.coordinates);
 	$tooltip = $('<div class="tooltip">'+this.name+'</div>');
 	for (var shape_index = 0; shape_index < this.coordinates.length; shape_index++) {
 		// console.log("Area created");
