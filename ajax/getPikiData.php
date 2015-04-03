@@ -18,6 +18,13 @@
         //Create an array with the children data
         $childrenData = array();
         while($childRow = $childrenResult->fetch_assoc()) {
+            //Get the piki row from the 'pikis' database
+            $childrenPikiResult = $conn->query("SELECT name,description FROM pikis WHERE id = $childRow[childPikiID] ");
+            $childPikiRow = $childrenPikiResult->fetch_assoc();
+
+            //Append the piki name/description info onto the rest of the child information
+            $childRow = array_merge($childRow, $childPikiRow);
+
             array_push($childrenData, $childRow);
         }
 

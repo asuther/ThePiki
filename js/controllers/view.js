@@ -58,16 +58,18 @@ myApp.controller('ViewCtrl', function($scope, $routeParams, $compile, $q, loadPi
       tabId: $routeParams.tabId
     };
 
-    var pikiDataDelivered = loadPikiService.getTabData($scope.model.pikiId);//$q.all[
-                            //    loadPikiService.getPikiData($scope.model.pikiId, 1),
-
-                            //];
+    var pikiDataDelivered = $q.all([
+                                loadPikiService.getPikiData($scope.model.pikiId, 1),
+                                loadPikiService.getTabData($scope.model.pikiId)
+                            ]);
 
     pikiDataDelivered.then(function(response) {
       console.log("Response Object from getPikiData()")
       console.log(response);
 
-      $scope.piki_data =  response;
+      $scope.tabData = response[1];
+
+      $scope.piki_data =  response[0];
       //Generate Piki Objects
       var childrenData = $scope.piki_data.childrenData;
       for(var child_index = 0 ; child_index < childrenData.length ; child_index++) {
