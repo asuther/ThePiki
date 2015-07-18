@@ -7,7 +7,7 @@
 <!-- Tab Navigation -->
 
 <nav id='tabs'>
-	<a href='#' ng-repeat='tab in tabData'>Tab {{ ($index + 1) + ": " + tab.name }}</a>
+	<a href='#/view/1/?tabID={{tab.id}}' ng-repeat='tab in tabData' category-tab='{{tab.id}}'>Tab {{ ($index + 1) + ": " + tab.name }}</a>
 </nav>
 <!-- Main Piki Table -->
 <table class="piki">

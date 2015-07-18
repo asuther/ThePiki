@@ -3,15 +3,16 @@
 var pikiApp = angular.module('pikiApp', []).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
-        when('/view/:pikiId/:tabId', {
+        when('/view/:pikiId/', {
             templateUrl: 'partials/view.html',
-            controller: 'ViewCtrl'
+            controller: 'ViewCtrl',
+            reloadOnSearch: false
         }).
         when('/catalogue', {
             templateUrl: 'partials/catalogue.html',
             controller: 'CatalogueCtrl'
         }).
-        otherwise({redirectTo: '/view/1/0'});
+        otherwise({redirectTo: '/view/1/?tabID=1'});
 }]);
 
 //Factor: loadPikiService
@@ -52,11 +53,12 @@ pikiApp.factory('loadPikiService', function($http) {
 })
 
 pikiApp.controller('ViewCtrl', function($scope, $routeParams, $compile, $q, loadPikiService) {
-
+    console.log('Reloading controller');
+    console.log($routeParams)
     //Get the piki ID and tab ID from the routing parameters
     $scope.model = {
       pikiId: $routeParams.pikiId,
-      tabId: $routeParams.tabId
+      tabId: $routeParams.tabID
     };
     $scope.pikiChildren = [];
 
@@ -98,5 +100,9 @@ pikiApp.controller('ViewCtrl', function($scope, $routeParams, $compile, $q, load
 	$scope.context = $scope.canvas[0].getContext("2d");
 
 	$('#mouseover_image').after($scope.canvas);
+
+    $scope.loadTabData = function(tabID) {
+
+    };
 
 });

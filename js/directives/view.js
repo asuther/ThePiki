@@ -43,3 +43,16 @@ pikiApp.directive('loadingImage', function() {
 		}
 	};
 });
+
+pikiApp.directive('categoryTab', function() {
+	return  {
+		link: function(scope, element, attributes) {
+			element.bind('click', function() {
+				var clickedTabID = attributes['categoryTab'];
+
+				//Change children to the new tab's children
+
+			});
+		}
+	};
+});
