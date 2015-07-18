@@ -7,11 +7,15 @@ myApp.directive('pikiShape', function($parse) {
 				// console.log($(element).offset());
 				var piki_id = $parse(attributes.pikiId)(scope);
 				console.log(scope.pikiChildren);
+
+				//Show information about that piki region
 				scope.pikiChildren[piki_id].show(element[0].offsetLeft,element[0].offsetTop);
 				console.log("Mouse Entered to Piki ID="+piki_id+ "  Region name: "+scope.pikiChildren[piki_id].name);
 			})
 			.bind('mouseleave', function() {
 				var piki_id = $parse(attributes.pikiId)(scope);
+
+				//Hide the tooltip
 				scope.pikiChildren[piki_id].hide();
 				// console.log("Mouse Exited PikiID area: "+piki_id);
 			})
