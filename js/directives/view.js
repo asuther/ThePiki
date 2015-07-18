@@ -1,5 +1,5 @@
 //Piki Shapes
-myApp.directive('pikiShape', function($parse) {
+pikiApp.directive('pikiShape', function($parse) {
 	return {
 		link: function(scope, element, attributes) {
 			//Initialize Shapes
@@ -32,7 +32,7 @@ myApp.directive('pikiShape', function($parse) {
 	};
 });
 
-myApp.directive('loadingImage', function() {
+pikiApp.directive('loadingImage', function() {
 	return  {
 		restrict: 'C',
 		link: function(scope, element, attributes) {

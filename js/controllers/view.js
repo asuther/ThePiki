@@ -1,6 +1,6 @@
 'use strict';
 
-var myApp = angular.module('myApp', []).
+var pikiApp = angular.module('pikiApp', []).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
         when('/view/:pikiId/:tabId', {
@@ -14,10 +14,13 @@ var myApp = angular.module('myApp', []).
         otherwise({redirectTo: '/view/1/0'});
 }]);
 
-myApp.factory('loadPikiService', function($http) {
+//Factor: loadPikiService
+//Description:  Contacts a MySQL database in order to load data about the current
+//              piki's tabs and children
+
+pikiApp.factory('loadPikiService', function($http) {
    return {
         getPikiData: function(pikiID, tabID) {
-             //return the promise directly.
              return $http({
                             method: 'GET',
                             url: 'ajax/getPikiData.php',
@@ -26,9 +29,8 @@ myApp.factory('loadPikiService', function($http) {
                                         tabID: tabID
                                     }
                         })
-                       .then(function(result) {
-                            //resolve the promise as the data
-                            return result.data;
+                       .then(function(pikiDataResult) {
+                            return pikiDataResult.data;
                         });
         },
 
@@ -41,22 +43,22 @@ myApp.factory('loadPikiService', function($http) {
                                         pikiID: pikiID
                                     }
                         })
-                       .then(function(result) {
-                            //resolve the promise as the data
-                            return result.data;
+                       .then(function(tabDataResult) {
+                            return tabDataResult.data;
                         });
         }
 
    };
 })
 
-myApp.controller('ViewCtrl', function($scope, $routeParams, $compile, $q, loadPikiService) {
+pikiApp.controller('ViewCtrl', function($scope, $routeParams, $compile, $q, loadPikiService) {
 
     //Get the piki ID and tab ID from the routing parameters
     $scope.model = {
       pikiId: $routeParams.pikiId,
       tabId: $routeParams.tabId
     };
+    $scope.pikiChildren = [];
 
     //Load the Piki Data and Tab Data
     var pikiDataDelivered = $q.all([
@@ -78,14 +80,18 @@ myApp.controller('ViewCtrl', function($scope, $routeParams, $compile, $q, loadPi
 
         //For all children within the current piki...
         for(var child_index = 0 ; child_index < childrenData.length ; child_index++) {
-        var child = childrenData[child_index];
-        childrenData[child_index].coordinates = JSON.parse( childrenData[child_index].coordinates );  //Convert coordinates to json
-        $scope.pikiChildren[childrenData[child_index].id] = new Piki(child,$compile, $scope);
-        $scope.pikiChildren[childrenData[child_index].id].draw($scope.context);
+            var child = childrenData[child_index];
+
+            //...get the coordinates of the child's region and convert them to a json object
+            childrenData[child_index].coordinates = JSON.parse( childrenData[child_index].coordinates );
+
+            //...create a piki object and store in the local scope, then draw it on screen
+            $scope.pikiChildren[childrenData[child_index].id] = new Piki(child,$compile, $scope);
+            $scope.pikiChildren[childrenData[child_index].id].draw($scope.context);
         }
     });
 
-    $scope.pikiChildren = [];
+
 
 	//Create Canvas
 	$scope.canvas = $('<canvas class="overlay" width="300" height="300"></canvas>');
@@ -93,8 +99,4 @@ myApp.controller('ViewCtrl', function($scope, $routeParams, $compile, $q, loadPi
 
 	$('#mouseover_image').after($scope.canvas);
 
-
-});
-myApp.controller('CatalogueCtrl', function($scope, $routeParams) {
-    console.log('CatalogueCtrl');
 });
