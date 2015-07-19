@@ -1,19 +1,26 @@
 'use strict';
 
 var pikiApp = angular.module('pikiApp', ['ui.router']).
-  config(['$routeProvider', function($routeProvider) {
-    $routeProvider.
-        when('/view/:pikiId/', {
+  config(function($stateProvider, $urlRouterProvider) {
+    $stateProvider.
+        state('view', {
+            url: '/view?pikiId&tabID',
             templateUrl: 'partials/view.html',
             controller: 'ViewCtrl',
             reloadOnSearch: false
         }).
-        when('/catalogue', {
-            templateUrl: 'partials/catalogue.html',
-            controller: 'CatalogueCtrl'
-        }).
-        otherwise({redirectTo: '/view/1/?tabID=1'});
-}]);
+            state('view.general',{
+                url: '/general',
+                templateUrl: 'partials/view-general.html',
+                reloadOnSearch: false,
+                controller: 'GeneralViewCtrl'
+            }).
+            state('view.link',{
+                url: '/link',
+                templateUrl: 'partials/view-link.html',
+                reloadOnSearch: false
+            });
+});
 
 //Factor: loadPikiService
 //Description:  Contacts a MySQL database in order to load data about the current
@@ -51,13 +58,14 @@ pikiApp.factory('loadPikiService', function($http) {
    };
 });
 
-pikiApp.controller('ViewCtrl', function($scope, $routeParams, $compile, $q, loadPikiService) {
+pikiApp.controller('ViewCtrl', function($scope, $state, $stateParams, $compile, $q, loadPikiService) {
     console.log('Reloading controller');
 
     //Get the piki ID and tab ID from the routing parameters
     $scope.model = {
-      pikiId: parseInt($routeParams.pikiId),
-      tabId: parseInt($routeParams.tabID)
+      pikiId: parseInt($stateParams.pikiId),
+      tabId: parseInt($stateParams.tabID),
+      state: $state.current.url.slice(1)
     };
     $scope.pikiChildren = [[]];
 
@@ -105,6 +113,7 @@ pikiApp.controller('ViewCtrl', function($scope, $routeParams, $compile, $q, load
 	$('#mouseover_image').after($scope.canvas);
 
     $scope.loadNewTab = function(tabID) {
+
         //Set the new tab in the scope's model
         $scope.model.tabId = tabID;
         //Clear the canvas
@@ -123,6 +132,9 @@ pikiApp.controller('ViewCtrl', function($scope, $routeParams, $compile, $q, load
     };
 });
 
-pikiApp.controller('LinkCtrl', function($scope, $routeParams, $compile, $q, loadPikiService) {
+pikiApp.controller('GeneralViewCtrl', function($scope, $state, $stateParams, $compile, $q, loadPikiService) {
+});
+
+pikiApp.controller('LinkCtrl', function($scope, $stateParams, $compile, $q, loadPikiService) {
 
 });

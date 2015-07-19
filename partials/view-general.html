@@ -1,0 +1,5 @@
+<map name='Map' id='Map'>
+    <div ng-repeat="child in pikiChildren_dense track by $index">
+        <area shape="rect" coords="{{shape.toString()}}" href="#" ng-repeat="shape in child.coordinates" piki-shape="" data-piki-id="{{child.id}}">
+    </div>
+</map>
