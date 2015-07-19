@@ -1,0 +1,44 @@
+//Drawable Shape
+pikiApp.directive('drawable', function($parse) {
+    var mouseDown = false;
+    return {
+        restrict: 'C',
+        link: function(scope, element, attributes) {
+
+            //Initialize Shapes
+            element.bind('mousedown', function(e) {
+                var parent_offset = $(element).parents('table.piki').offset();
+                var currentX = (e.pageX - parent_offset.left);
+                var currentY = (e.pageY - parent_offset.top)
+
+                mouseDown = true;
+
+                scope.startLine(currentX, currentY);
+            })
+            .bind('mouseup', function(e) {
+                mouseDown = false;
+
+                var parent_offset = $(element).parents('table.piki').offset();
+                var currentX = (e.pageX - parent_offset.left);
+                var currentY = (e.pageY - parent_offset.top)
+
+                //console.log('(' + currentX + ', ' + currentY + ")");
+
+                scope.finishLine(currentX, currentY);
+            })
+            .bind('mousemove', function(e) {
+                if(mouseDown) {
+
+                    var parent_offset = $(element).parents('table.piki').offset();
+                    var currentX = (e.pageX - parent_offset.left);
+                    var currentY = (e.pageY - parent_offset.top)
+
+                    //console.log('(' + currentX + ', ' + currentY + ")");
+
+                    scope.addPoint(currentX, currentY)
+                }
+
+            });
+        }
+    };
+});

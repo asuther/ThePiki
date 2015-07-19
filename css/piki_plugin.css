@@ -26,6 +26,12 @@ canvas {
 #mouseover_image {
 	z-index: 50;
 }
+.drawable {
+	z-index: 51;
+}
+.drawable:active {
+	cursor: crosshair;
+}
 .tooltip {
 	position: absolute;
 	top: 0px;

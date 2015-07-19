@@ -1,7 +1,12 @@
 'use strict';
 
+//********************
+//  Router
+//********************
+
 var pikiApp = angular.module('pikiApp', ['ui.router']).
   config(function($stateProvider, $urlRouterProvider) {
+
     $stateProvider.
         state('view', {
             url: '/view?pikiId&tabID',
@@ -18,11 +23,13 @@ var pikiApp = angular.module('pikiApp', ['ui.router']).
             state('view.link',{
                 url: '/link',
                 templateUrl: 'partials/view-link.html',
-                reloadOnSearch: false
+                reloadOnSearch: false,
+                controller: 'LinkCtrl'
             });
+    $urlRouterProvider.otherwise('/view?pikiId=1?tabID=2');
 });
 
-//Factor: loadPikiService
+//Factory: loadPikiService
 //Description:  Contacts a MySQL database in order to load data about the current
 //              piki's tabs and children
 
@@ -58,9 +65,9 @@ pikiApp.factory('loadPikiService', function($http) {
    };
 });
 
+//View controller
+//Description: The function of the view page in the general state
 pikiApp.controller('ViewCtrl', function($scope, $state, $stateParams, $compile, $q, loadPikiService) {
-    console.log('Reloading controller');
-
     //Get the piki ID and tab ID from the routing parameters
     $scope.model = {
       pikiId: parseInt($stateParams.pikiId),
@@ -69,6 +76,7 @@ pikiApp.controller('ViewCtrl', function($scope, $state, $stateParams, $compile, 
     };
     $scope.pikiChildren = [[]];
 
+    console.log($scope.model);
     //Load the Piki Data and Tab Data
     var pikiDataDelivered = $q.all([
                                 loadPikiService.getPikiData($scope.model.pikiId, 1),
@@ -133,8 +141,4 @@ pikiApp.controller('ViewCtrl', function($scope, $state, $stateParams, $compile, 
 });
 
 pikiApp.controller('GeneralViewCtrl', function($scope, $state, $stateParams, $compile, $q, loadPikiService) {
-});
-
-pikiApp.controller('LinkCtrl', function($scope, $stateParams, $compile, $q, loadPikiService) {
-
 });
