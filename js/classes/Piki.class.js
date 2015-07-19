@@ -14,7 +14,7 @@ function Piki(data,$compile,$scope) {
 //*******************************************
 //	Init
 //*******************************************
-	this.id = data.id || -1;
+	this.id = data.childPikiID || -1;
 	this.name = data.name || "Unknown";
 	this.coordinates =  data.coordinates ; // Added brackets to make it an array of arrays
 

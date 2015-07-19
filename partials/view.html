@@ -16,8 +16,8 @@
 		<td id="piki_td" >
 			<div class="loading">
 				<img src="{{  piki_data.imagePath + piki_data.name + '.' + piki_data.imageType}} " id="visible_image" class="loadingImage" >
-				<map name='Map' id='Map' >
-					 <div ng-repeat="child in piki_data.childrenData">
+				<map name='Map' id='Map'>
+					 <div ng-repeat="child in pikiChildren_dense track by $index">
 						<area shape="rect" coords="{{shape.toString()}}" href="#" ng-repeat="shape in child.coordinates" piki-shape="" data-piki-id="{{child.id}}">
 					</div>
 				</map>
