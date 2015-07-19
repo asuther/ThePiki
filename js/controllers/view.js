@@ -1,6 +1,6 @@
 'use strict';
 
-var pikiApp = angular.module('pikiApp', []).
+var pikiApp = angular.module('pikiApp', ['ui.router']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
         when('/view/:pikiId/', {
@@ -49,7 +49,7 @@ pikiApp.factory('loadPikiService', function($http) {
         }
 
    };
-})
+});
 
 pikiApp.controller('ViewCtrl', function($scope, $routeParams, $compile, $q, loadPikiService) {
     console.log('Reloading controller');
@@ -121,5 +121,8 @@ pikiApp.controller('ViewCtrl', function($scope, $routeParams, $compile, $q, load
             item.draw($scope.context);
         });
     };
+});
+
+pikiApp.controller('LinkCtrl', function($scope, $routeParams, $compile, $q, loadPikiService) {
 
 });
