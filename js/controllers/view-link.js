@@ -46,4 +46,7 @@ pikiApp.controller('LinkCtrl', function($scope, $stateParams, $compile, $q, load
 
 
     };
+
+
+
 });

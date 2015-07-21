@@ -26,7 +26,7 @@ var pikiApp = angular.module('pikiApp', ['ui.router']).
                 reloadOnSearch: false,
                 controller: 'LinkCtrl'
             });
-    $urlRouterProvider.otherwise('/view?pikiId=1?tabID=2');
+    $urlRouterProvider.otherwise('/view/general?pikiId=1&tabID=1');
 });
 
 //Factory: loadPikiService

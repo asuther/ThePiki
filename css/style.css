@@ -98,3 +98,7 @@ menu#controls  ul li {
 	display: inline;
 	margin-left: 10px;
 }
+
+.fancybox_wrapper {
+	display: none;
+}
