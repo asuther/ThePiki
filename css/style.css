@@ -69,9 +69,8 @@ nav#tabs a:hover {
 	padding: 5px 10px;
 }
 #tabs a.selected {
-	background-color: white;
+	background-color: orange;
 	color: gray;
-	border: 1px solid black;
 }
 /*******************
 		Table
