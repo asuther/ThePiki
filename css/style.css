@@ -69,7 +69,7 @@ nav#tabs a:hover {
 	padding: 5px 10px;
 }
 #tabs a.selected {
-	background-color: orange;
+	background-color: green;
 	color: gray;
 }
 /*******************
@@ -84,18 +84,33 @@ table.piki tr td {
 	vertical-align: top;
 }
 td#sidebar {
-	padding:0 20px;
 	min-width: 400px;
 }
+
+/*******************
+		Sidebar
+*******************/
+
 menu#controls  {
 	border: 1px solid blue;
+	width: 100%;
+	padding: 10px 0;
 }
 menu#controls ul {
 	list-style: none;
 }
-menu#controls  ul li {
+menu#controls ul li {
 	display: inline;
 	margin-left: 10px;
+}
+menu#controls a {
+	background-color: #19902B;
+	padding: 10px 20px;
+	font-weight: 600;
+	color: white;
+}
+menu#controls a:hover {
+	color: black;
 }
 
 .fancybox_wrapper {
