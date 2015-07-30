@@ -13,7 +13,7 @@ pikiApp.directive('drawable', function($parse) {
 
                 mouseDown = true;
 
-                scope.startLine(currentX, currentY);
+                scope.startDrawing(currentX, currentY);
             })
             .bind('mouseup', function(e) {
                 mouseDown = false;
@@ -24,7 +24,7 @@ pikiApp.directive('drawable', function($parse) {
 
                 //console.log('(' + currentX + ', ' + currentY + ")");
 
-                scope.finishLine(currentX, currentY);
+                scope.endDrawing(currentX, currentY);
             })
             .bind('mousemove', function(e) {
                 if(mouseDown) {
@@ -35,7 +35,7 @@ pikiApp.directive('drawable', function($parse) {
 
                     //console.log('(' + currentX + ', ' + currentY + ")");
 
-                    scope.addPoint(currentX, currentY)
+                    scope.updateDrawing(currentX, currentY)
                 }
 
             });
