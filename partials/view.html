@@ -21,7 +21,7 @@
 		<td id="piki_td" >
 			<div class="loading">
 				<img src="{{  piki_data.imagePath + piki_data.name + '.' + piki_data.imageType}} " id="visible_image" class="loadingImage" >
-				<div ui-view></div>
+				<div ui-view='imageOverlay'></div>
 				<img id="mouseover_image" class="overlay" width="300" height="300" usemap="#Map" piki-image>
 			</div>
 		</td>
@@ -31,9 +31,9 @@
 			<menu id="controls">
 				<a href="#/view/general?pikiId=1&tabID={{model.tabId}}" ng-click="model.state = 'general'">General</a>
 				<a href="#/view/link?pikiId=1&tabID={{model.tabId}}" ng-click="model.state = 'link'">Link</a>
+
 			</menu>
-
-
+			<div ui-view='sidebarControls'></div>
 			<div ng-include="menu_item.link">
 			</div>
 		</td>
