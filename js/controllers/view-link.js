@@ -5,6 +5,7 @@ pikiApp.factory('circleDrawingTool', [function () {
 
     return {
         start: function(x, y, xyArray) {
+            console.log('Starting circle');
             centerX = x;
             centerY = y;
             radius = 0;
@@ -87,10 +88,16 @@ pikiApp.controller('LinkCtrl', function($scope, $stateParams, $compile, $q, load
     $scope.xyArray = [[]];
     $scope.currentShape = 0;
 
+    $scope.drawingToolList = [
+        'circleDrawingTool',
+        'freehandDrawingTool'
+    ];
+
     $scope.drawableCanvas = $('.drawable');
     $scope.drawContext = $scope.drawableCanvas[0].getContext("2d");
 
-    $scope.currentTool = circleDrawingTool;
+    $scope.currentTool = freehandDrawingTool;
+    $scope.currentToolName = 'freehandDrawingTool'
 
 
     $scope.startDrawing = function(x,y) {
@@ -107,6 +114,13 @@ pikiApp.controller('LinkCtrl', function($scope, $stateParams, $compile, $q, load
 
         $scope.currentTool.draw($scope.xyArray, $scope.drawContext);
         $scope.currentShape++;
+    };
+
+    $scope.changeDrawingTool = function(newToolName) {
+        console.log('Changed tool to ' + newToolName);
+        $scope.currentTool = eval(newToolName);
+        $scope.currentToolName = newToolName;
+        $scope.currentTool = freehandDrawingTool;
     };
 
 });
