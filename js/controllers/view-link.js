@@ -82,15 +82,56 @@ pikiApp.factory('freehandDrawingTool', [function () {
     };
 }]);
 
+pikiApp.factory('rectangleDrawingTool', [function () {
+
+    var startX = 0;
+    var startY = 0;
+    var width = 0;
+    var height = 0;
+
+    return {
+        start: function(x, y, xyArray) {
+
+            startX = x;
+            startY = y;
+            width = height = 1;
+
+            xyArray = [startX, startY, width, height];
+            console.log('Rectangle Started');
+            return xyArray;
+        },
+        update: function(x, y, xyArray) {
+            width = x - startX;
+            height = y - startY;
+            xyArray = [startX, startY, width, height];
+
+            return xyArray;
+        },
+        end: function(x, y, xyArray) {
+            width = x - startX;
+            height = y - startY;
+            xyArray = [startX, startY, width, height];
+
+            return xyArray;
+        },
+        draw: function(fullXYArray, drawContext) {
+            drawContext.clearRect(0, 0, 300, 300);
+            fullXYArray.forEach(function (shapeCoordinates) {
+                drawContext.strokeRect(shapeCoordinates[0], shapeCoordinates[1], shapeCoordinates[2], shapeCoordinates[3]);
+            });
+        }
+    };
+}]);
+
 //Link Controller
-pikiApp.controller('LinkCtrl', function($scope, $stateParams, $compile, $q, loadPikiService, circleDrawingTool, freehandDrawingTool) {
+pikiApp.controller('LinkCtrl', function($scope, $stateParams, $compile, $q, loadPikiService, circleDrawingTool, freehandDrawingTool, rectangleDrawingTool) {
     $scope.xyArray = [[]];
     $scope.currentShape = 0;
 
     $scope.drawableCanvas = $('.drawable');
     $scope.drawContext = $scope.drawableCanvas[0].getContext("2d");
 
-    $scope.currentTool = circleDrawingTool;
+    $scope.currentTool = rectangleDrawingTool;
 
 
     $scope.startDrawing = function(x,y) {
