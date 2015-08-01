@@ -83,10 +83,47 @@ pikiApp.factory('freehandDrawingTool', [function () {
     };
 }]);
 
+pikiApp.factory('drawingTools', function (circleDrawingTool, freehandDrawingTool) {
+
+    var currentTool = circleDrawingTool;
+    var xyArray = [[]];
+    var currentShape = 0;
+    var drawContext;
+
+    return {
+        init: function(canvasContext) {
+            drawContext = canvasContext;
+        },
+        startDrawing : function(x,y) {
+            if(xyArray[currentShape] == undefined)
+                xyArray.push([]);
+            xyArray[currentShape] = currentTool.start(x, y, xyArray[currentShape]);
+        },
+        updateDrawing : function(x, y) {
+            xyArray[currentShape] = currentTool.update(x, y, xyArray[currentShape]);
+            currentTool.draw(xyArray, drawContext);
+        },
+        endDrawing : function(x,y) {
+            xyArray[currentShape] = currentTool.end(x, y, xyArray[currentShape]);
+
+            currentTool.draw(xyArray, drawContext);
+            currentShape++;
+        },
+
+        changeDrawingTool : function(newToolName) {
+            console.log('Changed tool to ' + newToolName);
+            currentTool = eval(newToolName);
+            //currentToolName = newToolName;
+            //currentTool = freehandDrawingTool;
+        }
+    };
+});
+
 //Link Controller
-pikiApp.controller('LinkCtrl', function($scope, $stateParams, $compile, $q, loadPikiService, circleDrawingTool, freehandDrawingTool) {
-    $scope.xyArray = [[]];
-    $scope.currentShape = 0;
+pikiApp.controller('LinkCtrl', function($scope, $stateParams, $compile, $q, loadPikiService, drawingTools) {
+    //$scope.xyArray = [[]];
+    //$scope.currentShape = 0;
+    $scope.drawingTools = drawingTools;
 
     $scope.drawingToolList = [
         'circleDrawingTool',
@@ -96,31 +133,11 @@ pikiApp.controller('LinkCtrl', function($scope, $stateParams, $compile, $q, load
     $scope.drawableCanvas = $('.drawable');
     $scope.drawContext = $scope.drawableCanvas[0].getContext("2d");
 
-    $scope.currentTool = freehandDrawingTool;
-    $scope.currentToolName = 'freehandDrawingTool'
+    $scope.drawingTools.init($scope.drawContext);
+    //$scope.currentTool = freehandDrawingTool;
+    //$scope.currentToolName = 'freehandDrawingTool'
 
 
-    $scope.startDrawing = function(x,y) {
-        if($scope.xyArray[$scope.currentShape] == undefined)
-            $scope.xyArray.push([]);
-        $scope.xyArray[$scope.currentShape] = $scope.currentTool.start(x, y, $scope.xyArray[$scope.currentShape]);
-    };
-    $scope.updateDrawing = function(x, y) {
-        $scope.xyArray[$scope.currentShape] = $scope.currentTool.update(x, y, $scope.xyArray[$scope.currentShape]);
-        $scope.currentTool.draw($scope.xyArray, $scope.drawContext);
-    };
-    $scope.endDrawing = function(x,y) {
-        $scope.xyArray[$scope.currentShape] = $scope.currentTool.end(x, y, $scope.xyArray[$scope.currentShape]);
 
-        $scope.currentTool.draw($scope.xyArray, $scope.drawContext);
-        $scope.currentShape++;
-    };
-
-    $scope.changeDrawingTool = function(newToolName) {
-        console.log('Changed tool to ' + newToolName);
-        $scope.currentTool = eval(newToolName);
-        $scope.currentToolName = newToolName;
-        $scope.currentTool = freehandDrawingTool;
-    };
 
 });

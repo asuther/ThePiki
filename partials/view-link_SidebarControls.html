@@ -1,5 +1,5 @@
 <select ng-model='toolName'
-        ng-change="changeDrawingTool(toolName)"
+        ng-change="drawingTools.changeDrawingTool(toolName)"
         ng-options='toolName for toolName in drawingToolList'></select>
 
 <a href ng-click="open_fancybox()">Continue</a>
