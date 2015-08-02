@@ -1,1 +1,5 @@
-<input type='search' placeholder='Search pikis...' />
+<input type='search' placeholder='Search pikis...' id='searchBar' ng-model='searchTerm' ng-change='searchBarChanged(searchTerm)' />
+
+<div ng-repeat='searchResult in searchResults'>
+    {{ searchResult.name }}
+</div>
