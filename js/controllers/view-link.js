@@ -2,18 +2,20 @@ pikiApp.factory('circleDrawingTool', [function () {
     var centerX = 0;
     var centerY = 0;
     var radius = 0;
+    var isDone = false;
 
     return {
-        start: function(x, y, xyArray) {
+        mouseDown: function(x, y, xyArray) {
             console.log('Starting circle');
             centerX = x;
             centerY = y;
             radius = 0;
             xyArray = [centerX,centerY,radius]
+            isDone = false;
 
             return xyArray;
         },
-        update: function(x, y, xyArray) {
+        mouseMove: function(x, y, xyArray) {
             //update the radius
             radius = Math.floor(Math.sqrt(Math.pow((x - centerX),2) + Math.pow((y - centerY),2)));
 
@@ -21,11 +23,13 @@ pikiApp.factory('circleDrawingTool', [function () {
             return xyArray;
 
         },
-        end: function(x, y) {
+        mouseUp: function(x, y) {
             //update the radius
             radius = Math.floor(Math.sqrt(Math.pow((x - centerX),2) + Math.pow((y - centerY),2)));
 
             xyArray = [centerX,centerY,radius];
+            isDone = true;
+
             return xyArray;
         },
         draw: function(fullXYArray, drawContext) {
@@ -34,31 +38,38 @@ pikiApp.factory('circleDrawingTool', [function () {
             drawContext.arc(centerX, centerY, radius, 0, Math.PI*2, true);
             drawContext.closePath();
             drawContext.stroke();
+        },
+        isDone: function() {
+            return isDone;
         }
     };
 }]);
 
 pikiApp.factory('freehandDrawingTool', [function () {
 
+    var isDone = false;
+
     return {
-        start: function(x, y, xyArray) {
+        mouseDown: function(x, y, xyArray) {
             //Add the first point
             xyArray.push([x,y]);
             console.log('Line Started');
+            isDone = false;
             return xyArray;
         },
-        update: function(x, y, xyArray) {
+        mouseMove: function(x, y, xyArray) {
             //Add the current point
             xyArray.push([x,y]);
 
             return xyArray;
         },
-        end: function(x, y, xyArray) {
+        mouseUp: function(x, y, xyArray) {
             //Add the current point
             xyArray.push([x,y]);
 
             //Add the first point to close the line
             xyArray.push(xyArray[0]);
+            isDone = true;
 
             return xyArray;
         },
@@ -79,6 +90,9 @@ pikiApp.factory('freehandDrawingTool', [function () {
                 drawContext.stroke();
                 drawContext.closePath();
             });
+        },
+        isDone: function() {
+            return isDone;
         }
     };
 }]);
@@ -89,9 +103,10 @@ pikiApp.factory('rectangleDrawingTool', [function () {
     var startY = 0;
     var width = 0;
     var height = 0;
+    var isDone = false;
 
     return {
-        start: function(x, y, xyArray) {
+        mouseDown: function(x, y, xyArray) {
 
             startX = x;
             startY = y;
@@ -99,19 +114,21 @@ pikiApp.factory('rectangleDrawingTool', [function () {
 
             xyArray = [startX, startY, width, height];
             console.log('Rectangle Started');
+            isDone = false;
             return xyArray;
         },
-        update: function(x, y, xyArray) {
+        mouseMove: function(x, y, xyArray) {
             width = x - startX;
             height = y - startY;
             xyArray = [startX, startY, width, height];
 
             return xyArray;
         },
-        end: function(x, y, xyArray) {
+        mouseUp: function(x, y, xyArray) {
             width = x - startX;
             height = y - startY;
             xyArray = [startX, startY, width, height];
+            isDone = true;
 
             return xyArray;
         },
@@ -120,6 +137,9 @@ pikiApp.factory('rectangleDrawingTool', [function () {
             fullXYArray.forEach(function (shapeCoordinates) {
                 drawContext.strokeRect(shapeCoordinates[0], shapeCoordinates[1], shapeCoordinates[2], shapeCoordinates[3]);
             });
+        },
+        isDone: function() {
+            return isDone;
         }
     };
 }]);
@@ -135,27 +155,35 @@ pikiApp.factory('drawingTools', function (circleDrawingTool, freehandDrawingTool
         init: function(canvasContext) {
             drawContext = canvasContext;
         },
-        startDrawing : function(x,y) {
+        mouseDown : function(x,y) {
             if(xyArray[currentShape] == undefined)
                 xyArray.push([]);
-            xyArray[currentShape] = currentTool.start(x, y, xyArray[currentShape]);
+            xyArray[currentShape] = currentTool.mouseDown(x, y, xyArray[currentShape]);
+            this.updateDrawing();
         },
-        updateDrawing : function(x, y) {
-            xyArray[currentShape] = currentTool.update(x, y, xyArray[currentShape]);
+        mouseMove : function(x, y) {
+            xyArray[currentShape] = currentTool.mouseMove(x, y, xyArray[currentShape]);
             currentTool.draw(xyArray, drawContext);
+            this.updateDrawing();
         },
-        endDrawing : function(x,y) {
-            xyArray[currentShape] = currentTool.end(x, y, xyArray[currentShape]);
-
-            currentTool.draw(xyArray, drawContext);
-            currentShape++;
+        mouseUp : function(x,y) {
+            xyArray[currentShape] = currentTool.mouseUp(x, y, xyArray[currentShape]);
+            this.updateDrawing();
         },
-
         changeDrawingTool : function(newToolName) {
             console.log('Changed tool to ' + newToolName);
             currentTool = eval(newToolName);
             //currentToolName = newToolName;
             //currentTool = freehandDrawingTool;
+        },
+        updateDrawing : function() {
+            currentTool.draw(xyArray, drawContext);
+
+            //Check if the shape is done
+            if( currentTool.isDone()  ) {
+                currentShape++;
+            }
+
         }
     };
 });
