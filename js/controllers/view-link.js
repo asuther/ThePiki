@@ -148,11 +148,8 @@ pikiApp.factory('rectangleDrawingTool', [function () {
 
             return xyArray;
         },
-        draw: function(fullXYArray, drawContext) {
-            drawContext.clearRect(0, 0, 300, 300);
-            fullXYArray.forEach(function (shapeCoordinates) {
-                drawContext.strokeRect(shapeCoordinates[0], shapeCoordinates[1], shapeCoordinates[2], shapeCoordinates[3]);
-            });
+        draw: function(xyArray, drawContext) {
+            drawContext.strokeRect(xyArray[0], xyArray[1], xyArray[2], xyArray[3]);
         },
         isDone: function() {
             console.log('Rectangle is done = ' + isDone);
@@ -247,12 +244,13 @@ pikiApp.factory('drawingTools', function (circleDrawingTool, freehandDrawingTool
             drawContext = canvasContext;
         },
         mouseDown : function(x,y) {
-            if(xyArray[currentShape] == undefined)
-                xyArray.push([]);
+
             xyArray[currentShape] = currentTool.mouseDown(x, y, xyArray[currentShape]);
             this.updateDrawing(x, y);
         },
         mouseMove : function(x, y, isMouseDown) {
+            if(xyArray[currentShape] == undefined)
+                xyArray[currentShape] = [];
             xyArray[currentShape] = currentTool.mouseMove(x, y, xyArray[currentShape], isMouseDown);
             this.updateDrawing(x, y);
         },
@@ -268,7 +266,9 @@ pikiApp.factory('drawingTools', function (circleDrawingTool, freehandDrawingTool
         },
         updateDrawing : function(x, y) {
             //console.log(xyArray);
+            drawContext.clearRect(0, 0, 300, 300);
             xyArray.forEach(function(shapeCoordinates) {
+                console.log(shapeCoordinates);
                 if (shapeCoordinates != undefined)
                     currentTool.draw(shapeCoordinates, drawContext, x, y);
             });
