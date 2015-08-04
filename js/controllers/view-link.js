@@ -144,9 +144,71 @@ pikiApp.factory('rectangleDrawingTool', [function () {
     };
 }]);
 
-pikiApp.factory('drawingTools', function (circleDrawingTool, freehandDrawingTool) {
 
-    var currentTool = circleDrawingTool;
+pikiApp.factory('polygonDrawingTool', [function () {
+
+    var isDone = false;
+    var distanceToStart = 999;
+    var closenessThreshold = 10;
+
+    return {
+        mouseDown: function(x, y, xyArray) {
+            xyArray.push([x,y]);
+
+            return xyArray;
+        },
+        mouseMove: function(x, y, xyArray, isMouseDown) {
+            if( xyArray.length > 0 ) {
+                distanceToStartX = x - xyArray[0][0];
+                distanceToStartY = y - xyArray[0][1];
+
+                distanceToStart = Math.sqrt( Math.pow(distanceToStartX, 2) + Math.pow(distanceToStartY, 2) )
+            }
+            return xyArray;
+        },
+        mouseUp: function(x, y, xyArray) {
+            isDone = false;
+
+            //Add the first point to close the line
+            if( distanceToStart < closenessThreshold ) {
+                xyArray.push(xyArray[0]);
+                isDone = true;
+            }
+
+            return xyArray;
+        },
+        draw: function(xyArray, drawContext, x, y) {
+            console.log(xyArray);
+            drawContext.clearRect(0, 0, 300, 300);
+            xyArray.forEach(function (point, index) {
+                //console.log("index:" + index);
+                //console.log(point);
+
+                if(index == 0) {
+                    drawContext.beginPath();
+                    drawContext.moveTo( point[0] , point[1] );
+                } else {
+                    drawContext.lineTo( point[0] , point[1] );
+                }
+            });
+            if ( distanceToStart < closenessThreshold )
+                drawContext.lineTo( xyArray[0][0] , xyArray[0][1] );
+            else
+                drawContext.lineTo( x , y );
+            drawContext.stroke();
+
+            drawContext.closePath();
+
+        },
+        isDone: function() {
+            return isDone;
+        }
+    };
+}]);
+
+pikiApp.factory('drawingTools', function (circleDrawingTool, freehandDrawingTool, polygonDrawingTool) {
+
+    var currentTool = polygonDrawingTool;
     var xyArray = [[]];
     var currentShape = 0;
     var drawContext;
@@ -159,16 +221,15 @@ pikiApp.factory('drawingTools', function (circleDrawingTool, freehandDrawingTool
             if(xyArray[currentShape] == undefined)
                 xyArray.push([]);
             xyArray[currentShape] = currentTool.mouseDown(x, y, xyArray[currentShape]);
-            this.updateDrawing();
+            this.updateDrawing(x, y);
         },
-        mouseMove : function(x, y) {
-            xyArray[currentShape] = currentTool.mouseMove(x, y, xyArray[currentShape]);
-            currentTool.draw(xyArray, drawContext);
-            this.updateDrawing();
+        mouseMove : function(x, y, isMouseDown) {
+            xyArray[currentShape] = currentTool.mouseMove(x, y, xyArray[currentShape], isMouseDown);
+            this.updateDrawing(x, y);
         },
         mouseUp : function(x,y) {
             xyArray[currentShape] = currentTool.mouseUp(x, y, xyArray[currentShape]);
-            this.updateDrawing();
+            this.updateDrawing(x, y);
         },
         changeDrawingTool : function(newToolName) {
             console.log('Changed tool to ' + newToolName);
@@ -176,9 +237,13 @@ pikiApp.factory('drawingTools', function (circleDrawingTool, freehandDrawingTool
             //currentToolName = newToolName;
             //currentTool = freehandDrawingTool;
         },
-        updateDrawing : function() {
-            currentTool.draw(xyArray, drawContext);
-
+        updateDrawing : function(x, y) {
+            console.log('Updating drawing' + xyArray.length);
+            if( xyArray[currentShape].length > 0 ) {
+                xyArray.forEach(function(shapeCoordinates) {
+                    currentTool.draw(shapeCoordinates, drawContext, x, y);
+                });
+            }
             //Check if the shape is done
             if( currentTool.isDone()  ) {
                 currentShape++;

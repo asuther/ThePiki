@@ -27,16 +27,14 @@ pikiApp.directive('drawable', function($parse) {
                 scope.drawingTools.mouseUp(currentX, currentY);
             })
             .bind('mousemove', function(e) {
-                if(mouseDown) {
 
-                    var parent_offset = $(element).parents('table.piki').offset();
-                    var currentX = (e.pageX - parent_offset.left);
-                    var currentY = (e.pageY - parent_offset.top)
+                var parent_offset = $(element).parents('table.piki').offset();
+                var currentX = (e.pageX - parent_offset.left);
+                var currentY = (e.pageY - parent_offset.top)
 
-                    //console.log('(' + currentX + ', ' + currentY + ")");
+                //console.log('(' + currentX + ', ' + currentY + ")");
 
-                    scope.drawingTools.mouseMove(currentX, currentY)
-                }
+                scope.drawingTools.mouseMove(currentX, currentY, mouseDown)
 
             });
         }
