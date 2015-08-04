@@ -43,6 +43,12 @@ pikiApp.factory('circleDrawingTool', [function () {
         },
         isDone: function() {
             return isDone;
+        },
+        resetTool: function() {
+            centerX = 0;
+            centerY = 0;
+            radius = 0;
+            isDone = false;
         }
     };
 }]);
@@ -97,6 +103,9 @@ pikiApp.factory('freehandDrawingTool', [function () {
         },
         isDone: function() {
             return isDone;
+        },
+        resetTool: function() {
+            isDone = false;
         }
     };
 }]);
@@ -107,7 +116,7 @@ pikiApp.factory('rectangleDrawingTool', [function () {
     var startY = 0;
     var width = 0;
     var height = 0;
-    var isDone = false;
+    var isDone = true;
 
     return {
         mouseDown: function(x, y, xyArray) {
@@ -135,6 +144,7 @@ pikiApp.factory('rectangleDrawingTool', [function () {
             height = y - startY;
             xyArray = [startX, startY, width, height];
             isDone = true;
+            console.log('Rectangle Finished');
 
             return xyArray;
         },
@@ -145,7 +155,15 @@ pikiApp.factory('rectangleDrawingTool', [function () {
             });
         },
         isDone: function() {
+            console.log('Rectangle is done = ' + isDone);
             return isDone;
+        },
+        resetTool: function() {
+            startX = 0;
+            startY = 0;
+            width = 0;
+            height = 0;
+            isDone = false;
         }
     };
 }]);
@@ -163,6 +181,7 @@ pikiApp.factory('polygonDrawingTool', [function () {
             return xyArray;
         },
         mouseMove: function(x, y, xyArray, isMouseDown) {
+            console.log(xyArray);
             if( xyArray.length > 0 ) {
                 distanceToStartX = x - xyArray[0][0];
                 distanceToStartY = y - xyArray[0][1];
@@ -207,6 +226,11 @@ pikiApp.factory('polygonDrawingTool', [function () {
         },
         isDone: function() {
             return isDone;
+        },
+        resetTool: function() {
+            isDone = false;
+            distanceToStart = 999;
+            closenessThreshold = 10;
         }
     };
 }]);
@@ -243,14 +267,15 @@ pikiApp.factory('drawingTools', function (circleDrawingTool, freehandDrawingTool
             //currentTool = freehandDrawingTool;
         },
         updateDrawing : function(x, y) {
-            console.log('Updating drawing' + xyArray.length);
-            if( xyArray[currentShape].length > 0 ) {
-                xyArray.forEach(function(shapeCoordinates) {
+            //console.log(xyArray);
+            xyArray.forEach(function(shapeCoordinates) {
+                if (shapeCoordinates != undefined)
                     currentTool.draw(shapeCoordinates, drawContext, x, y);
-                });
-            }
+            });
             //Check if the shape is done
             if( currentTool.isDone()  ) {
+                currentTool.resetTool();
+                console.log('adding new shape');
                 currentShape++;
             }
 
