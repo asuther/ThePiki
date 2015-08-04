@@ -1,5 +1,5 @@
 <?php
-    require_once('connectToDatabase.php');
+    require_once('../connectToDatabase.php');
     $pikiID = $_GET['pikiID'];
 
     //Get piki information

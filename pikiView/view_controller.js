@@ -15,7 +15,7 @@ pikiApp.factory('loadPikiService', function($http) {
         getPikiData: function(pikiID) {
              return $http({
                             method: 'GET',
-                            url: 'ajax/getPikiData.php',
+                            url: 'components/pikiView/getPikiData.php',
                             params: {
                                         pikiID: pikiID
                                     }
@@ -29,7 +29,7 @@ pikiApp.factory('loadPikiService', function($http) {
              //return the promise directly.
              return $http({
                             method: 'GET',
-                            url: 'ajax/getTabData.php',
+                            url: 'components/pikiView/getTabData.php',
                             params: {
                                         pikiID: pikiID
                                     }

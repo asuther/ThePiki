@@ -1,8 +1,6 @@
 <html ng-app="pikiApp">
 <head>
     <title>The Piki</title>
-    <script src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/Classes/Piki.Class.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/normalize.css">
     <link rel="stylesheet" type="text/css" href="app.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
@@ -17,20 +15,23 @@
 
 	<main role="main" ui-view></main>
 
-	<script src="js/angular.min.js"></script>
+    <!-- Javascript: Vendor -->
+    <script src="Vendor/jquery.min.js"></script>
+	<script src="Vendor/angular.min.js"></script>
     <script type="text/javascript" src="Vendor/angular-ui-router.min.js"></script>
     <link rel="stylesheet" href="Vendor/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
     <script type="text/javascript" src="Vendor/fancybox/jquery.fancybox.pack.js"></script>
 
+    <!-- Javascript: App -->
     <script src="app.js"></script>
-    <script src="app-controller.js"></script>
-    <script src="js/controllers/view.js"></script>
-	<script src="js/controllers/view.js"></script>
-	<script src="js/directives/view.js"></script>
-	<script src="js/controllers/view-link.js"></script>
-	<script src="js/directives/view-link.js"></script>
+    <script src="app_controller.js"></script>
 
-
+    <!-- Javascript: PikiView -->
+    <script src="components/pikiView/Piki.class.js" type="text/javascript" ></script>
+    <script src="pikiView/view_controller.js"></script>
+	<script src="components/pikiView/view_directives.js"></script>
+	<script src="pikiView/link/view-link_controller.js"></script>
+	<script src="components/pikiView/view-link_directives.js"></script>
 
 </body>
 </html

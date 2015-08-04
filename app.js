@@ -54,7 +54,7 @@ var pikiApp = angular.module('pikiApp', ['ui.router'], function($httpProvider) {
         })
         .state('view', {
             url: '/view?pikiId&tabID',
-            templateUrl: 'partials/view.html',
+            templateUrl: 'pikiView/view.html',
             controller: 'ViewCtrl',
             reloadOnSearch: false
         })
@@ -63,11 +63,11 @@ var pikiApp = angular.module('pikiApp', ['ui.router'], function($httpProvider) {
                 reloadOnSearch: false,
                 views: {
                     'imageOverlay@view': {
-                        templateUrl: 'partials/view-general.html',
+                        templateUrl: 'pikiView/general/view-general.html',
                         controller: 'GeneralViewCtrl'
                     },
                     'sidebarControls@view': {
-                        templateUrl: 'partials/view-general_SidebarControls.html',
+                        templateUrl: 'pikiView/general/view-general_SidebarControls.html',
                         controller: 'GeneralViewCtrl'
                     }
                 }
@@ -77,11 +77,11 @@ var pikiApp = angular.module('pikiApp', ['ui.router'], function($httpProvider) {
                 reloadOnSearch: false,
                 views: {
                     'imageOverlay@view': {
-                        templateUrl: 'partials/view-link.html',
+                        templateUrl: 'pikiView/link/view-link.html',
                         controller: 'LinkCtrl'
                     },
                     'sidebarControls@view': {
-                        templateUrl: 'partials/view-link_SidebarControls.html',
+                        templateUrl: 'pikiView/link/view-link_SidebarControls.html',
                         controller: 'LinkCtrl'
                     }
                 }

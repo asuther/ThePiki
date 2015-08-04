@@ -1,5 +1,5 @@
 <?php
-    require_once('connectToDatabase.php');
+    require_once('../connectToDatabase.php');
     echo var_dump($_POST);
     $parentID = $_POST['parentID'];
     $shapeCoordinates = $_POST['shapeCoordinates'];

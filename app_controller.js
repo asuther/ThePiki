@@ -5,7 +5,7 @@ pikiApp.factory('pikiAutosearch', function ($http) {
         search: function(queryString) {
             return $http({
                 method: 'GET',
-                url: 'ajax/searchPikis.php',
+                url: 'components/searchPikis.php',
                 params: {
                             'queryString': queryString
                         }
