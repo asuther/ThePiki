@@ -15,11 +15,13 @@ pikiApp.factory('circleDrawingTool', [function () {
 
             return xyArray;
         },
-        mouseMove: function(x, y, xyArray) {
-            //update the radius
-            radius = Math.floor(Math.sqrt(Math.pow((x - centerX),2) + Math.pow((y - centerY),2)));
+        mouseMove: function(x, y, xyArray, isMouseDown) {
+            if( isMouseDown ) {
+                //update the radius
+                radius = Math.floor(Math.sqrt(Math.pow((x - centerX),2) + Math.pow((y - centerY),2)));
 
-            xyArray = [centerX,centerY,radius];
+                xyArray = [centerX,centerY,radius];
+            }
             return xyArray;
 
         },
@@ -57,9 +59,11 @@ pikiApp.factory('freehandDrawingTool', [function () {
             isDone = false;
             return xyArray;
         },
-        mouseMove: function(x, y, xyArray) {
-            //Add the current point
-            xyArray.push([x,y]);
+        mouseMove: function(x, y, xyArray, isMouseDown) {
+            if( isMouseDown ) {
+                //Add the current point
+                xyArray.push([x,y]);
+            }
 
             return xyArray;
         },
@@ -117,10 +121,12 @@ pikiApp.factory('rectangleDrawingTool', [function () {
             isDone = false;
             return xyArray;
         },
-        mouseMove: function(x, y, xyArray) {
-            width = x - startX;
-            height = y - startY;
-            xyArray = [startX, startY, width, height];
+        mouseMove: function(x, y, xyArray, isMouseDown) {
+            if( isMouseDown ) {
+                width = x - startX;
+                height = y - startY;
+                xyArray = [startX, startY, width, height];
+            }
 
             return xyArray;
         },
@@ -143,7 +149,6 @@ pikiApp.factory('rectangleDrawingTool', [function () {
         }
     };
 }]);
-
 
 pikiApp.factory('polygonDrawingTool', [function () {
 
@@ -206,9 +211,9 @@ pikiApp.factory('polygonDrawingTool', [function () {
     };
 }]);
 
-pikiApp.factory('drawingTools', function (circleDrawingTool, freehandDrawingTool, polygonDrawingTool) {
+pikiApp.factory('drawingTools', function (circleDrawingTool, freehandDrawingTool, polygonDrawingTool, rectangleDrawingTool) {
 
-    var currentTool = polygonDrawingTool;
+    var currentTool = rectangleDrawingTool;
     var xyArray = [[]];
     var currentShape = 0;
     var drawContext;
@@ -249,15 +254,33 @@ pikiApp.factory('drawingTools', function (circleDrawingTool, freehandDrawingTool
                 currentShape++;
             }
 
+        },
+        getXYArray: function() {
+            return xyArray;
+        }
+    };
+});
+
+pikiApp.factory('pikiSubmitTools', function ($http) {
+
+
+    return {
+        submitChild: function(parentID, shapeCoordinates) {
+            return $http.post('ajax/submitChild.php', {parentID: parentID, shapeCoordinates: shapeCoordinates})
+            .then(function(pikiDataResult) {
+                return pikiDataResult.data;
+            });
         }
     };
 });
 
 //Link Controller
-pikiApp.controller('LinkCtrl', function($scope, $stateParams, $compile, $q, loadPikiService, drawingTools) {
+pikiApp.controller('LinkCtrl', function($scope, $stateParams, $compile, $q, loadPikiService, drawingTools, pikiSubmitTools) {
     //$scope.xyArray = [[]];
     //$scope.currentShape = 0;
+    console.log($stateParams);
     $scope.drawingTools = drawingTools;
+    $scope.xyArray = [[]];
 
     $scope.drawingToolList = [
         'circleDrawingTool',
@@ -270,5 +293,15 @@ pikiApp.controller('LinkCtrl', function($scope, $stateParams, $compile, $q, load
     $scope.drawingTools.init($scope.drawContext);
     //$scope.currentTool = freehandDrawingTool;
     //$scope.currentToolName = 'freehandDrawingTool'
+
+    $scope.updateXYArray = function() {
+        $scope.xyArray = drawingTools.getXYArray();
+    };
+
+    $scope.submitShape = function() {
+        pikiSubmitTools.submitChild(parseInt($stateParams['pikiId']), $scope.xyArray).then(function( responseData ) {
+            console.log(responseData);
+        })
+    };
 
 });

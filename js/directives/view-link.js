@@ -42,22 +42,26 @@ pikiApp.directive('drawable', function($parse) {
 });
 
 pikiApp.directive('fancybox', function($compile) {
-  return {
-    restrict: 'A',
-    replace: false,
-    link: function($scope, element, attrs) {
+    return {
+        restrict: 'A',
+        replace: false,
+        link: function($scope, element, attrs) {
 
-      $scope.open_fancybox = function() {
+            $scope.open_fancybox = function() {
 
-        var el = angular.element(element.html()),
+                //Get new xyArray
+                $scope.updateXYArray();
+                console.log($scope.xyArray);
 
-        compiled = $compile(el);
+                var el = angular.element(element.html()),
 
-        $.fancybox.open(el);
+                compiled = $compile(el);
 
-        compiled($scope);
+                $.fancybox.open(el);
 
-      };
-    }
-  };
+                compiled($scope);
+
+            };
+        }
+    };
 });
