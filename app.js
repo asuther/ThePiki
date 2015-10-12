@@ -52,6 +52,11 @@ var pikiApp = angular.module('pikiApp', ['ui.router'], function($httpProvider) {
             templateUrl: 'partials/home.html',
             controller: 'HomeCtrl'
         })
+        .state('create', {
+          url: '/create',
+          templateUrl: 'pikiCreate/create.html',
+          controller: 'CreateCtrl'
+        })
         .state('view', {
             url: '/view?pikiId&tabID',
             templateUrl: 'pikiView/view.html',

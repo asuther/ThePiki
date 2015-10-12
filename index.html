@@ -10,7 +10,17 @@
 
 	<!-- Header -->
 	<header>
-		<h1>The Piki</h1>
+        <div>
+            Logo Here
+        </div>
+        <div id='header-center'>
+		  <h1>The Piki</h1>
+        </div>
+        <div>
+            <h1>
+                <a href='#/create'>+Create New Piki</a>
+            <h1>
+        </div>
 	</header>
 
 	<main role="main" ui-view></main>
@@ -32,6 +42,9 @@
 	<script src="components/pikiView/view_directives.js"></script>
 	<script src="pikiView/link/view-link_controller.js"></script>
 	<script src="components/pikiView/view-link_directives.js"></script>
+
+    <!-- Javascript: PikiCreate -->
+    <script src="pikiCreate/create_controller.js"></script>
 
 </body>
 </html
